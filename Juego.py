@@ -1,29 +1,43 @@
+from Nave import Nave
+from Tablero import Tablero
+
+
 class Juego:
-	def __init__(self,x,y):
-		self.x = x
-		self.y = y
+    def __init__(self):
+        self.tablero = Tablero()
+        self.naves = []
+        self.inicializar_naves()
 
-	@property
-	def x(self):
-		return self.__x
-	@x.setter
-	def x(self,x):
-		if isinstance(x,int):
-			self.__x = x
-		else:
-			self.__x = 0
-	@property
-	def y(self):
-		return self._y
-	@y.setter
-	def y(self,y):
-		if isinstance(y, int):
-			self.__y = y
-		else:
-			self.__y = 0
+    def inicializar_naves(self):
+        datos = [("Submarino", 1), ("Buque", 2), ("Portaaviones", 4)]
+        for nombre, tamano in datos:
+            for _ in range(2):
+                nave = Nave(nombre, tamano)
+                self.naves.append(nave)
+                self.tablero.colocar_nave(nave)
+
+    def lanzar_ataque(self, x, y):
+        return self.tablero.gestionar_disparo(x, y)
 
 
+if __name__ == "__main__":
 
+    juego = Juego()
 
-	def lanzar_ataque(self):
+    while True:
+        print("---BIENVENIDO AL JUEGO---\n")
+        print("1. Ver Tablero\n")
+        print("2. Lanzar ataque\n")
+        print("3. Salir")
+        opcion = input("Elige una opcion: ")
 
+        match opcion:
+            case "1":
+                print(juego.tablero)
+            case "2":
+                x = int(input("Elige una fila: "))
+                y = int(input("Elige una columna: "))
+                print(juego.lanzar_ataque(x, y))
+            case "3":
+                print("Saliendo...")
+                break
