@@ -1,4 +1,8 @@
 class Nave:
+    """
+    Clase que crea una nave con sus parametros, ademas tiene metodos "recibir_disparo" y "restar_vida" 
+    """
+
     def __init__(self, nombre, tamano):
         self.nombre = nombre
         self.vida = tamano
