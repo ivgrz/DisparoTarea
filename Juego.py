@@ -9,12 +9,20 @@ class Juego:
         self.inicializar_naves()
 
     def inicializar_naves(self):
-        datos = [("Submarino", 1), ("Buque", 2), ("Portaaviones", 4)]
-        for nombre, tamano in datos:
-            for _ in range(2):
-                nave = Nave(nombre, tamano)
-                self.naves.append(nave)
-                self.tablero.colocar_nave(nave)
+        datos = [
+            ("Enterprise", "portaaviones", 5),
+            ("Bismarck", "fragata", 3),
+            ("Prince of Wales", "fragata", 3),
+            ("Graf Spee", "fragata", 3),
+            ("U-47", "submarino", 1),
+            ("U-96", "submarino", 1),
+            ("U-505", "submarino", 1),
+            ("U-534", "submarino", 1),
+        ]
+        for nombre, tipo, tamano in datos:
+            nave = Nave(nombre, tipo, tamano)
+            self.naves.append(nave)
+            self.tablero.colocar_nave(nave)
 
     def lanzar_ataque(self, x, y):
         return self.tablero.gestionar_disparo(x, y)
