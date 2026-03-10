@@ -14,10 +14,28 @@ class Tablero:
     def colocar_nave(self, nave: Nave):
         # Las naves deben tener un tamaño real no solo referencial
         while True:
-            fila = random.randint(0, 9)
-            col = random.randint(0, 9)
-            if self.tablero[fila][col] == ("Agua", 0):
-                self.tablero[fila][col] = nave
+            direccion = random.choice(["H", "V"])
+            if direccion == "H":
+
+                fila = random.randint(0, 9)
+                col = random.randint(0, 10 - nave.vida)
+                celdas = []
+                for i in range(nave.vida):
+                    celdas.append((fila, col+i))
+            else:
+                fila = random.randint(0, 10 - nave.vida)
+                col = random.randint(0, 9)
+                celdas = []
+                for i in range(nave.vida):
+                    celdas.append((fila + i, col))
+            libre = True
+            for f, c in celdas:
+                if self.tablero[f][c] != ("Agua", 0):
+                    libre = False
+                    break
+            if libre:
+                for f, c in celdas:
+                    self.tablero[f][c] = nave
                 break
 
     def gestionar_disparo(self, x, y):
