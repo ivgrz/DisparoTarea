@@ -1,4 +1,7 @@
 # Clase que representa una casilla del tablero
+from Nave import Nave
+
+
 class Casilla:
     def __init__(self):
         """
