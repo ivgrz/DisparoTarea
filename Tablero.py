@@ -17,7 +17,6 @@ class Tablero:
         self.TOCADO = 1
         self.HUNDIDO = 2
 
-        # Crear la matriz 10x10 de objetos Casilla vacíos
         self.casillero = []
         for _ in range(tamano):
             fila_actual = []

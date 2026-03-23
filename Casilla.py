@@ -11,5 +11,5 @@ class Casilla:
             nave: Referencia a la nave que ocupa esta casilla (None si está vacía)
             visitada (bool): True si ya se ha disparado a esta casilla, False en caso contrario
         """
-        self.nave = None
+        self.nave: Nave = None
         self.visitada = False

@@ -23,14 +23,14 @@ class Juego:
         sub3 = Nave("U-505", "submarino", 1)
         sub4 = Nave("U-534", "submarino", 1)
 
-        self.tablero.colocar_nave(por1, 1, 1, "H")   # Enterprise: (1,1) a (1,5)
-        self.tablero.colocar_nave(fra1, 3, 3, "V")   # Bismarck: (3,3) a (5,3)
-        self.tablero.colocar_nave(fra2, 7, 1, "H")   # Prince of Wales: (7,1) a (7,3)
-        self.tablero.colocar_nave(fra3, 9, 1, "H")   # Graf Spee: (9,1) a (9,3)
-        self.tablero.colocar_nave(sub1, 4, 6, "H")   # U-47: (4,6)
-        self.tablero.colocar_nave(sub2, 9, 9, "H")   # U-96: (9,9)
-        self.tablero.colocar_nave(sub3, 7, 6, "H")   # U-505: (7,6)
-        self.tablero.colocar_nave(sub4, 9, 5, "H")   # U-534: (9,5)
+        self.tablero.colocar_nave(por1, 1, 1, "H")
+        self.tablero.colocar_nave(fra1, 3, 3, "V")
+        self.tablero.colocar_nave(fra2, 7, 1, "H")
+        self.tablero.colocar_nave(fra3, 9, 1, "H")
+        self.tablero.colocar_nave(sub1, 4, 6, "H")
+        self.tablero.colocar_nave(sub2, 9, 9, "H")
+        self.tablero.colocar_nave(sub3, 7, 6, "H")
+        self.tablero.colocar_nave(sub4, 9, 5, "H")
 
     def mostrar_resultado(self, resultado: int):
         """
