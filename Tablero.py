@@ -1,46 +1,81 @@
-import random
-from Nave import Nave
 from Casilla import Casilla
 
 
 class Tablero:
-    """
-    Clase que crea un tablero nuevo, usando una matriz 10 x 10 de objetos Casilla.
-    Coloca naves en posiciones aleatorias y gestiona los disparos.
-    """
 
-    def __init__(self):
-        self.tablero: list[list[Casilla]] = [
-            [Casilla() for _ in range(10)] for _ in range(10)]
+    def __init__(self, tamano=10):
+        """
+        Constructor de la clase Tablero.
+        Inicializa una matriz de Casillas vacías (sin naves).
+        Las naves se colocan posteriormente usando el método colocar_nave().
 
-    def colocar_nave(self, nave: Nave):
-        while True:
-            fila = random.randint(0, 9)
-            col = random.randint(0, 9)
-            if self.tablero[fila][col].nave is None:
-                self.tablero[fila][col].nave = nave
-                break
+        Args:
+            tamano (int): Dimensión del tablero (por defecto 10x10)
+        """
+        self.AGUA = 0
+        self.TOCADO = 1
+        self.HUNDIDO = 2
 
-    def gestionar_disparo(self, x, y):
-        casilla = self.tablero[x][y]
+        # Crear la matriz 10x10 de objetos Casilla vacíos
+        self.casillero = []
+        for _ in range(tamano):
+            fila_actual = []
+            for _ in range(tamano):
+                fila_actual.append(Casilla())
+            self.casillero.append(fila_actual)
+
+    def colocar_nave(self, nave, x, y, orientacion):
+        """
+        Coloca una nave en el tablero en las coordenadas especificadas.
+        Marca las casillas ocupadas por la nave según su tamaño y orientación.
+
+        Args:
+            nave (Nave): Objeto nave a colocar
+            x (int): Coordenada X inicial (fila)
+            y (int): Coordenada Y inicial (columna)
+            orientacion (str): Orientación de la nave
+                              "H" para horizontal (expande en columnas)
+                              "V" para vertical (expande en filas)
+
+        Example:
+            tablero.colocar_nave(submarino, 0, 0, "H")  # Coloca horizontalmente desde (0,0)
+            tablero.colocar_nave(buque, 5, 3, "V")      # Coloca verticalmente desde (5,3)
+        """
+        if orientacion == "H":
+            for i in range(nave.vida):
+                self.casillero[x][y + i].nave = nave
+        elif orientacion == "V":
+            for i in range(nave.vida):
+                self.casillero[x + i][y].nave = nave
+
+    def comprobar_impacto(self, x, y):
+        """
+        Comprueba si hay una nave en las coordenadas indicadas.
+        Si la casilla ya fue visitada, no descuenta vida.
+        Si hay nave, llama a su método recibir_disparo().
+
+        Args:
+            x (int): Coordenada X del disparo
+            y (int): Coordenada Y del disparo
+
+        Returns:
+            int: Resultado del disparo (AGUA=0, TOCADO=1, HUNDIDO=2)
+        """
+        print(f"[LOG] estoy en tablero comprobando impacto ({x}, {y})")
+        casilla = self.casillero[x][y]
 
         if casilla.visitada:
-            return "Ya disparado"
+            print("[LOG] Casilla ya disparada anteriormente, no se descuenta vida")
+            return self.AGUA
 
         casilla.visitada = True
 
         if casilla.nave is None:
-            return "Agua"
+            print("[LOG] Agua")
+            return self.AGUA
         else:
-            return casilla.nave.recibir_disparo()
-
-    def __str__(self):
-        resultado = ""
-        for fila in self.tablero:
-            for casilla in fila:
-                if casilla.nave is not None:
-                    resultado += str(casilla.nave) + "  "
-                else:
-                    resultado += "Agua  "
-            resultado += "\n"
-        return resultado
+            resultado = casilla.nave.recibir_disparo()
+            print(f"[LOG] {casilla.nave.nombre} {resultado}")
+            if resultado == "Hundido":
+                return self.HUNDIDO
+            return self.TOCADO
